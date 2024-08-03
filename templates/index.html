@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="col-md-6">
+          <div style="text-align: center; flex-grow: 1;">
+            <h3 class="text-dark mb-2">Welcome to <br /><i class="text-success" >Tree Talk App!</i></h3>
+            <h5 class="text-dark mt-2 mb-5">Discuss all your tree-related issues here!</h5>
+        </div>
+          <style> 
+            background: url("{{ url_for('static', filename='assets/tree4.png') }}") no-repeat center center fixed;
+          </style>  
+          <h3 class="text-center text-success my-2">Login</h3>
+            <form action="{{ url_for('login') }}" method="post">
+                <div class="form-group">
+                    <label for="username"><i class="fas fa-user"></i> Username</label>
+                    <input type="text" name="username" class="form-control" id="username" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password"><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn btn-success btn-block">Login</button>
+            </form>
+            <p >Don't have an account? <a class="text-success" href="{{ url_for('register') }}">Register</a></p>
+        </div>
+    </div>
+    <footer> Author:Sue Raisianzadeh  Student number: 1161048 </footer>
+</div>
+{% endblock %}

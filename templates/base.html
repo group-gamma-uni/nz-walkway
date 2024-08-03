@@ -1,0 +1,99 @@
+<!-- base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %} - Tree Talk</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <style>
+    .overlay {
+        background-color: rgba(255, 255, 255, 0.8); /* Light white transparent background */
+        border-radius: 10px;
+        margin: auto;
+        padding: 20px;
+    }
+    .navbar, .sidebar {
+        background-color: rgba(100, 245, 80, 0.2); /* Slightly transparent background for navbar and sidebar */
+    }
+    .navbar a, .sidebar a {
+        color: #005500; /* Green text for better visibility on light background */
+    }
+</style>
+</head>
+<body class="bg-light-green">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light-green">
+        <a class="navbar-brand text-success fs-5" href="{{ url_for('home') }}"><b class="mt-3"><i>Tree Talk</i></b></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto mr-5">
+
+                <li class="nav-item text-success ml-5">
+                  <a class="nav-link fs-5 text-success mr-5 {{ 'text-danger' if request.endpoint == 'home' else '' }}" href="{{ url_for('home') }}"><i class="fas fa-home"></i> Home</a></li>
+                {% if g.user and g.user.is_authenticated %}
+
+                <li class="nav-item text-success ml-5">
+                   <a class="nav-link fs-5 text-success mr-5 {{ 'text-danger' if request.endpoint == 'profile' else '' }}" href="{{ url_for('profile') }}">
+                        <i class="fas fa-user-circle"></i> Profile
+                    </a>
+                </li>
+                {% endif %}
+                <li class="nav-item text-success ml-5">
+                    <a class="nav-link fs-5 text-success mr-5 {{ 'text-danger' if request.endpoint == 'community' else '' }}" href="{{ url_for('community') }}">
+                        <i class="fas fa-users"></i> Community Center
+                    </a>
+                </li>
+
+                <li class="nav-item text-success ml-5"><a class="nav-link fs-5 text-success mr-5 {{ 'text-danger' if request.endpoint == 'logout' else '' }}" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                <li class="nav-item text-success ml-5"><a class="nav-link fs-5 text-success mr-5 {{ 'text-danger' if request.endpoint == 'login' else '' }}" href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                <li class="nav-item text-success ml-5"><a class="nav-link fs-5 text-success mr-5 {{ 'text-danger' if request.endpoint == 'register' else '' }}" href="{{ url_for('register') }}"><i class="fas fa-user-plus"></i> Register</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid full-height">
+        <div class="row full-height">
+            <nav id="sidebar" class="col-md-6 col-lg-2 d-md-block bg-light-green sidebar">
+                <div class="position-sticky">
+                    <ul class="nav flex-column h-50">
+                        <li class="nav-item">
+                            <a class="nav-link active my-5 {{ 'text-danger' if request.endpoint == 'home' else '' }}" aria-current="page" href="{{ url_for('home') }}"><i class="fas fa-home"></i> Home</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link my-4 fs-5 {{ 'text-danger' if request.endpoint == 'members' else '' }}" href="{{ url_for('members') }}"><i class="fas fa-users"></i> Members</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link my-4 fs-5 {{ 'text-danger' if request.endpoint == 'moderators' else '' }}" href="{{ url_for('moderators') }}"><i class="fas fa-user-shield"></i> Moderators</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link my-4 fs-5 {{ 'text-danger' if request.endpoint == 'admins' else '' }}" href="{{ url_for('admins') }}"><i class="fas fa-user-cog"></i> Admins</a>
+                        </li>
+                      </ul>  
+                  </div>
+              </nav>
+              <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                  {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                      <div class="alert-container mt-4">
+                        {% for category, message in messages %}
+                          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  {% endwith %}
+                  {% block content %}{% endblock %}
+              </main>
+          </div>
+      </div>
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  </body>
+  </html>
